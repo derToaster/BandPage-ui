@@ -1,0 +1,15 @@
+<div class="container">
+
+  <table class="table table-bordered table-inverse">
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Instrument</th>
+  </tr>
+  <tr *ngFor="let user of users">
+    <td>{{user.name}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.instrument}}</td>
+  </tr>
+  </table>
+</div>
