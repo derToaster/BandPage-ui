@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {BandService} from '../../services/band.service';
+import {IUser} from '../../models/IUser';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
+
 
 @Component({
   selector: 'app-admin',
@@ -7,19 +11,13 @@ import {BandService} from '../../services/band.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  public users: any;
+  public users: IUser;
 
-  constructor(private bandService: BandService) { }
+  constructor(private bandService: BandService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getUsers();
   }
+// #TODO dialog for deletion of user
 
-  getUsers(): any{
-  this.bandService.getUsers().subscribe(
-  data => this.users = data,
-    err => console.error(err),
-    () => console.log('Users loaded')
-  );
-  }
+
 }

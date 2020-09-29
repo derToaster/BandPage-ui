@@ -32,7 +32,7 @@ export class RegistrationComponent implements OnInit {
       this.validMessage = 'You are Registered';
       this.bandService.createUser(this.forms.value).subscribe(
       data => {
-        this.forms.reset;
+        this.forms.reset();
         return true;
       },
       error => {

@@ -1,0 +1,13 @@
+mat-form-field{
+  width: 60%;
+}
+.submitButton{
+  text-align: end;
+  padding-right: 5%;
+
+}
+mat-card{
+ text-align: center;
+  background-image: linear-gradient(to bottom right, #f5a04c, #ee7700, #eb5f5e);
+}
+
