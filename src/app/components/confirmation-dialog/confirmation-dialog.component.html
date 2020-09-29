@@ -1,0 +1,8 @@
+<mat-card>
+  <h1 mat-dialog-title>Delete {{data.dialogName}}</h1>
+<p>Are You Sure ?</p>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onClick()" >Cancel</button>
+  <button mat-raised-button color="warn" (click)="deleteUser(data.dialogId)">Delete</button>
+</div>
+</mat-card>
