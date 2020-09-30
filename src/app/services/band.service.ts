@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {IUser} from '../models/IUser';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -10,13 +10,22 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class BandService {
-  constructor(private http: HttpClient) { }
-
-  getUsers(): Observable<IUser[]>{
-    // let token = localStorage.getItem('access_token');
-    return this.http.get<IUser[]>('/server/api/v1/users',
-    // {headers: new HttpHeaders().set('Authorization', 'Bearer' + token)}
-  );
+  private _users: BehaviorSubject<IUser[]>;
+  private dataStore: {
+    users: IUser[];
+  };
+  constructor(private http: HttpClient) {
+   this.dataStore = { users: []};
+   this._users = new BehaviorSubject<IUser[]>([]);
+  }
+  get users(): Observable<IUser[]>{
+    return this._users.asObservable();
+  }
+  getUsers() {
+    return this.http.get<IUser[]>('/server/api/v1/users').subscribe(data => {
+      this.dataStore.users = data;
+      this._users.next(Object.assign({}, this.dataStore).users);
+    }, error => console.log('Error: cannot Fetch Data'));
   }
   createUser(user): Observable<IUser>{
     const body = JSON.stringify(user);
