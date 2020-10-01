@@ -21,6 +21,9 @@ export class BandService {
   get users(): Observable<IUser[]>{
     return this._users.asObservable();
   }
+  getUsersArray(): Observable<IUser[]>{
+    return this.http.get<IUser[]>('/server/api/v1/users');
+  }
   getUsers() {
     return this.http.get<IUser[]>('/server/api/v1/users').subscribe(data => {
       this.dataStore.users = data;

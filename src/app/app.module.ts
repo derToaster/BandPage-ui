@@ -15,9 +15,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import {DataTableComponent} from './components/data-table/data-table.component';
-
-import { DataTableDatasource } from './components/data-table/data-table-datasource';
+import { DataTableComponent } from './components/data-table/data-table.component';
 
 
 
@@ -28,7 +26,7 @@ import { DataTableDatasource } from './components/data-table/data-table-datasour
     RegistrationComponent,
     CallbackComponent,
     ConfirmationDialogComponent,
-    DataTableComponent,
+    DataTableComponent
   ],
   imports: [
     BrowserModule,

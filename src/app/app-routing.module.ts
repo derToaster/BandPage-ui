@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AdminComponent} from './components/admin/admin.component';
 import {RegistrationComponent} from './components/registration/registration.component';
 import {CallbackComponent} from './components/callback/callback.component';
+import {ConfirmationDialogComponent} from './components/confirmation-dialog/confirmation-dialog.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
     component: CallbackComponent},
   {path: 'admin',
     component: AdminComponent,
-  }
+  },
 ];
 
 @NgModule({

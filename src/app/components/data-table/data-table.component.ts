@@ -1,41 +1,33 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
+import { DataTableDataSource, DataTableItem } from './data-table-datasource';
 import {BandService} from '../../services/band.service';
-
-import {IUser} from '../../models/IUser';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTable, MatTableDataSource} from '@angular/material/table';
-import {async, Observable} from 'rxjs';
-import {DataTableDatasource} from './data-table-datasource';
-import {MatPaginator} from '@angular/material/paginator';
-
-
 @Component({
-  selector: 'app-data-table-example',
+  selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']
 })
-export class DataTableComponent implements OnInit, AfterViewInit {
-  users: Observable<IUser[]>;
-  dataSource: DataTableDatasource;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+export class DataTableComponent implements AfterViewInit, OnInit {
+  @ViewChild(MatPaginator, {static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<IUser>;
-  displayedColumns = ['name', 'username', 'email', 'instrument'];
+  @ViewChild(MatTable) table: MatTable<DataTableItem>;
+  dataSource: DataTableDataSource;
 
-  constructor(private userService: BandService, private dialog: MatDialog, ) { }
-  ngOnInit(): void {
-    this.dataSource = new DataTableDatasource(this.userService);
-    this.users = this.userService.users;
-    this.userService.getUsers();
-    this.users.subscribe(data => {
-        console.log(data);
-      });
+  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+  displayedColumns = ['name', 'username', 'email', 'instrument'];
+  constructor(private userService: BandService, private dialog: MatDialog) {
   }
-    ngAfterViewInit(): void {
+
+  ngOnInit(): void {
+    this.dataSource = new DataTableDataSource(this.userService);
+  }
+
+  ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
@@ -44,6 +36,4 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     const dialogref = this.dialog.open(ConfirmationDialogComponent, {
       data: { dialogName: name, dialogId: userId}});
   }
-
 }
-
