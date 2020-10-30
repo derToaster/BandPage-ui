@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CallbackComponent } from './callback.component';
+import { UserProfilePageComponent } from './user-profile-page.component';
 
-describe('CallbackComponent', () => {
-  let component: CallbackComponent;
-  let fixture: ComponentFixture<CallbackComponent>;
+describe('UserProfilePageComponent', () => {
+  let component: UserProfilePageComponent;
+  let fixture: ComponentFixture<UserProfilePageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CallbackComponent ]
+      declarations: [ UserProfilePageComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CallbackComponent);
+    fixture = TestBed.createComponent(UserProfilePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

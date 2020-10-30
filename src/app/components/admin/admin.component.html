@@ -1,21 +1,53 @@
-<!--<div class="container">-->
+<div class="theTable">
+
+<table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <th *ngFor="let column of sortableColumns" (click)="sort(column)">{{column.title}}
+        <span *ngIf="column.direction != null">
+    <span *ngIf="column.direction =='asc'; then sortAscending else sortDescending">
+    </span>
+  </span></th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of page.content">
+        <td >{{user.id}}</td>
+        <td ><button mat-button [matMenuTriggerFor]="menu">{{user.name}}</button>
+          <mat-menu class="custom-mat-menu" #menu="matMenu">
+            <button [routerLink]="['/userdetails', user.id]" mat-menu-item>
+              <mat-icon>folder_shared</mat-icon>
+              <span>Userdetails</span>
+            </button>
+            <button (click)="openDialog(user.name, user.id)" mat-menu-item>
+              <mat-icon>block</mat-icon>
+              <span>Delete User</span>
+            </button>
+          </mat-menu>
+        </td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td><div *ngFor="let skill of user.userSkills">{{skill.instruments.name}} : {{skill.skillLevels.skillLevel}}</div></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="thePaginator">
+      <app-custom-pagination
+        [page]="page"
+        (nextPageEvent)="getNextPage()"
+        (previousPageEvent)="getPreviousPage()"
+        (pageSizeEvent)="getPageInNewSize($event)">
+      </app-custom-pagination>
+    </div>
+</div>
+
+<ng-template #sortDescending>
+  <i class="material-icons">arrow_drop_down</i>
+</ng-template>
+<ng-template #sortAscending>
+  <i class="material-icons">
+    arrow_drop_up
+  </i>
+</ng-template>
 
 
-<!--  <table mat-table>-->
-<!--  <tr>-->
-<!--    <th mat-header-cell *matHeaderCellDef>Name</th>-->
-<!--    <th>Email</th>-->
-<!--    <th>Instrument</th>-->
-<!--  </tr>-->
-<!--  <tr *ngFor="let user of users">-->
-<!--    <td>{{user.name}}-->
-<!--      <button (click)="openDialog(user.name, user.id)" mat-icon-button color="warn" aria-label="Example icon button with a home icon">-->
-<!--        <mat-icon>block</mat-icon>-->
-<!--      </button>-->
-<!--    <td>{{user.email}}</td>-->
-<!--    <td>{{user.instrument}}</td>-->
-<!--  </tr>-->
-<!--  </table>-->
-<!--</div>-->
-<!--<app-data-table></app-data-table>-->
-<app-data-table></app-data-table>
+
+

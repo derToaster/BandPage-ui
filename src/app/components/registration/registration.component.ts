@@ -12,26 +12,29 @@ import {Observable} from 'rxjs';
 export class RegistrationComponent implements OnInit {
   forms: FormGroup;
   validMessage: string;
-  public models: string[] = [
+  public instrumentModels: string[] = [
     'Guitar', 'Drums', 'Bass', 'Keys', 'Sax', 'Trompet', 'Trombone', 'Flute', 'Vocal'];
+  public skillModels: string [] = [
+    'noob', 'intermediate', 'Pro', 'God', 'Beethoven was a Bitch!'
+  ];
 
   constructor(private bandService: BandService) {
   }
 
   ngOnInit(): void {
     this.forms = new FormGroup({
-      name: new FormControl('', Validators.required),
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
-      instrument: new FormControl('', Validators.required)
     });
   }
   createUser(): any {
+    console.log('Reached The Function');
     if (this.forms.valid){
       this.validMessage = 'You are Registered';
       this.bandService.createUser(this.forms.value).subscribe(
       data => {
+        console.log(data);
         this.forms.reset();
         return true;
       },

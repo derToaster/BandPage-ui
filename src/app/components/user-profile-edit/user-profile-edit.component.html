@@ -1,0 +1,71 @@
+<mat-card>
+    <div style="text-align: center" *ngIf="message">
+      <p>{{message}}</p>
+    </div>
+  <mat-card-title>Change Your Data</mat-card-title>
+  <mat-card-content>
+    <form class="form">
+      <div class="form-group">
+        <p>
+          <mat-form-field>
+            <input type="text" matInput [(ngModel)]="userData.email" name="Email" placeholder="Email" >
+          </mat-form-field>
+        </p>
+
+      </div>
+      <div class="form-group">
+        <p>
+          <mat-form-field>
+            <input type="password" matInput [(ngModel)]="userData.currentPassword" name="Current Password" placeholder="Current Password">
+          </mat-form-field>
+        </p>
+      </div>
+      <div class="form-group">
+        <p>
+          <mat-form-field>
+            <input type="password" matInput [(ngModel)]="userData.newPassword" name="New Password" placeholder="New Password" required>
+          </mat-form-field>
+        </p>
+      </div>
+      <div class="form-group">
+        <p>
+          <mat-form-field>
+            <input type="password" matInput [(ngModel)]="userData.confirmNewPassword" name="Confirm Password" placeholder="Confirm Password">
+          </mat-form-field>
+        </p>
+      </div>
+      <div class="button">
+        <button type="button" (click)="updateData()" mat-button>Change Data</button>
+      </div>
+      <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Instruments</mat-label>
+        <mat-select [(ngModel)]="userData.instrumentId" name="instrumentId">
+          <mat-option *ngFor="let instrument of instruments" [value]="instrument.id">
+            {{instrument.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+      <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Skills</mat-label>
+        <mat-select [(ngModel)]="userData.skillLevelId" name="instrumentId">
+          <mat-option *ngFor="let skill of skillLevels" [value]="skill.id">
+            {{skill.skillLevel}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      </div>
+      <div class="button">
+        <button type="button" (click)="createSkill()" mat-button>Add Instrument</button>
+      </div>
+
+    </form>
+  </mat-card-content>
+  <div><ul >
+    <li *ngFor="let skill of user.userSkills">{{skill.instruments.name}} {{skill.skillLevels.skillLevel}}<button (click)="deleteSkill(skill.id)" mat-menu-item>
+      <mat-icon>block</mat-icon>
+    </button></li>
+  </ul></div>
+</mat-card>
