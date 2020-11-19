@@ -1,0 +1,46 @@
+
+<div *ngIf="!user" align="center">
+  <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="user" class="userDetailPage">
+  <mat-card>
+    <mat-card-header>
+      <mat-icon mat-card-avatar svgIcon="{{user.avatar}}"></mat-icon>
+      <mat-card-title>
+        <h2>{{ user.name }}</h2>
+      </mat-card-title>
+      <mat-card-subtitle>
+        Instrument: {{ user.instrument }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Credentials">
+
+          <table class="table table-bordered table-striped">
+            <tr>
+            <th style="color: white" scope="row">Username</th>
+           <td>{{user.username}}</td>
+            </tr>
+            <tr>
+            <th style="color: white" scope="row">Email</th>
+            <td> {{user.email}}</td>
+            </tr>
+          </table>
+        </mat-tab>
+        <mat-tab label="Instruments and Skills">
+          <table class="table table-bordered table-striped">
+            <tr>
+              <th style="color: white" scope="row">Instrument</th>
+              <td>{{user.instrument}}</td>
+            </tr>
+            <tr>
+              <th style="color: white" scope="row">Skills</th>
+              <td> placeholder</td>
+            </tr>
+          </table>
+         </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>

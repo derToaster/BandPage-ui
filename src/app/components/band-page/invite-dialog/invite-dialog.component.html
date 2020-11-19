@@ -1,0 +1,18 @@
+
+<mat-card class="custom-confirmation-box">
+  <h1 mat-dialog-title>Invite</h1>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Users</mat-label>
+      <mat-select [(ngModel)]="invite.receiver" name="Username">
+        <mat-option *ngFor="let user of users" [value]="user">
+          {{user?.username}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="onClick()" >Cancel</button>
+    <button mat-raised-button color="warn" (click)="createInvite(data.sender, data.band)">Send Invite</button>
+  </div>
+</mat-card>

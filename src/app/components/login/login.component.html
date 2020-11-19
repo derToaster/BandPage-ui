@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <form class="form">
+      <div class="form-group">
+      <p>
+        not Registered yet? sign in <a [routerLink]="['registration']"> here</a>
+        <mat-form-field>
+          <input type="text" matInput [(ngModel)]="loginUserData.username" name="username" placeholder="Username" >
+        </mat-form-field>
+      </p>
+      </div>
+      <div class="form-group">
+      <p>
+        <mat-form-field>
+
+          <input type="password" matInput [(ngModel)]="loginUserData.password" name="password" placeholder="Password">
+        </mat-form-field>
+        <a (click)="openDialog()">Im so stupid i forgot my password</a>
+      </p>
+      </div>
+
+      <div class="button">
+        <button type="submit" (click)="submit()" mat-button>Login</button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>

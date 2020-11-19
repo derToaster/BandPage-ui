@@ -1,0 +1,25 @@
+<div id="confirmationDialog" *ngIf="page" class="card-actions align-items-center justify-content-end">
+  <span  class="align-self-center mb-1 mx-1 text-muted"><p style="color: white">Elements per page</p></span>
+  <div class="dropdown show">
+    <button mat-button [matMenuTriggerFor]="menu">
+      {{page.size}}
+    </button>
+    <mat-menu #menu="matMenu">
+   <a mat-menu-item (click)="updatePageSize(3)">3</a>
+   <a mat-menu-item (click)="updatePageSize(20)">20</a>
+   <a mat-menu-item (click)="updatePageSize(100)">100</a>
+   </mat-menu>
+  </div>
+  <span  class="align-self-center mb-1 mr-2 text-muted">
+   <p style="color: white" > Shows {{page.numberOfElements}} of {{page.totalElements}}</p>
+  </span>
+  <a  [routerLink]=""
+  class="btn btn-outline" [ngClass]="{'disabled': page.first}"
+  (click)="previousPage()">
+    <i class="material-icons">chevron_left</i>
+  </a>
+  <a class="btn btn-outline" [ngClass]="{'disabled': page.last}"
+  (click)="nextPage()">
+    <i class="material-icons">chevron_right</i>
+  </a>
+</div>
