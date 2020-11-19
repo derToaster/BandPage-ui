@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { BandService } from './band.service';
+import {BandService} from './band.service';
 
 describe('BandService', () => {
   let service: BandService;

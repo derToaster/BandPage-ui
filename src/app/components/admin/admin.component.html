@@ -1,43 +1,111 @@
-<div class="theTable">
-
-<table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-      <th *ngFor="let column of sortableColumns" (click)="sort(column)">{{column.title}}
-        <span *ngIf="column.direction != null">
+<mat-card>
+  <mat-card-title>List Of Users</mat-card-title>
+  <mat-card-content>
+    <div class="theTable">
+      <div>
+        <div class="searchBar">
+        <mat-form-field align="left">
+          <input type="text" matInput [(ngModel)]="keyword" name="keyword" placeholder="Keyword">
+        </mat-form-field>
+        <button mat-button (click)="searchData()">Search</button>
+        </div>
+        <table class="table table-bordered table-striped">
+          <thead class="thead-dark">
+          <th *ngFor="let column of sortableColumns" (click)="sort(column)">{{column.title}}
+            <span *ngIf="column.direction != null">
     <span *ngIf="column.direction =='asc'; then sortAscending else sortDescending">
     </span>
   </span></th>
-      </thead>
-      <tbody>
-      <tr *ngFor="let user of page.content">
-        <td >{{user.id}}</td>
-        <td ><button mat-button [matMenuTriggerFor]="menu">{{user.name}}</button>
-          <mat-menu class="custom-mat-menu" #menu="matMenu">
-            <button [routerLink]="['/userdetails', user.id]" mat-menu-item>
-              <mat-icon>folder_shared</mat-icon>
-              <span>Userdetails</span>
-            </button>
-            <button (click)="openDialog(user.name, user.id)" mat-menu-item>
-              <mat-icon>block</mat-icon>
-              <span>Delete User</span>
-            </button>
-          </mat-menu>
-        </td>
-        <td>{{user.username}}</td>
-        <td>{{user.email}}</td>
-        <td><div *ngFor="let skill of user.userSkills">{{skill.instruments.name}} : {{skill.skillLevels.skillLevel}}</div></td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="thePaginator">
-      <app-custom-pagination
-        [page]="page"
-        (nextPageEvent)="getNextPage()"
-        (previousPageEvent)="getPreviousPage()"
-        (pageSizeEvent)="getPageInNewSize($event)">
-      </app-custom-pagination>
+          </thead>
+          <tbody *ngFor="let user of page.content">
+          <tr *ngIf="user.approved">
+            <td>{{user.id}}</td>
+            <td>
+              <button mat-button [matMenuTriggerFor]="menu">{{user.username}}</button>
+              <mat-menu class="custom-mat-menu" #menu="matMenu">
+                <button [routerLink]="['/userdetails', user.id]" mat-menu-item>
+                  <mat-icon>folder_shared</mat-icon>
+                  <span>Userdetails</span>
+                </button>
+                <button (click)="openDialog(user.username, user.id)" mat-menu-item>
+                  <mat-icon>block</mat-icon>
+                  <span>Delete User</span>
+                </button>
+              </mat-menu>
+            </td>
+            <td>{{user.email}}</td>
+            <td>
+              <div *ngFor="let skill of user.userSkills">{{skill.instruments.name}}
+                : {{skill.skillLevels.skillLevel}}</div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="thePaginator">
+          <app-custom-pagination
+            [page]="page"
+            (nextPageEvent)="getNextPage()"
+            (previousPageEvent)="getPreviousPage()"
+            (pageSizeEvent)="getPageInNewSize($event)">
+          </app-custom-pagination>
+        </div>
+      </div>
     </div>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-title style="text-align: center">Unapproved Users</mat-card-title>
+  <mat-card-content>
+<div class="theTable">
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+    <th *ngFor="let column of sortableColumns" (click)="sort(column)">{{column.title}}
+      <span *ngIf="column.direction != null">
+    <span *ngIf="column.direction =='asc'; then sortAscending else sortDescending">
+    </span>
+  </span></th>
+    </thead>
+    <tbody *ngFor="let user of page.content">
+    <tr *ngIf="!user.approved">
+      <td>{{user.id}}
+        <button mat-menu-item (click)="approveUser(user.id, user.username, user.email)">
+          <mat-icon>check</mat-icon> Approve
+        </button>
+        <button mat-menu-item (click)="deleteUser(user.id, user.username, user.email)">
+          <mat-icon>close</mat-icon> Deny
+        </button>
+      </td>
+      <td>
+        <button mat-button [matMenuTriggerFor]="menu">{{user.username}}</button>
+        <mat-menu class="custom-mat-menu" #menu="matMenu">
+          <button [routerLink]="['/userdetails', user.id]" mat-menu-item>
+            <mat-icon>folder_shared</mat-icon>
+            <span>Userdetails</span>
+          </button>
+          <button (click)="openDialog(user.username, user.id)" mat-menu-item>
+            <mat-icon>block</mat-icon>
+            <span>Delete User</span>
+          </button>
+        </mat-menu>
+      </td>
+      <td>{{user.email}}</td>
+      <td>
+        <div *ngFor="let skill of user.userSkills">{{skill.instruments.name}} : {{skill.skillLevels.skillLevel}}</div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="thePaginator">
+    <app-custom-pagination
+      [page]="page"
+      (nextPageEvent)="getNextPage()"
+      (previousPageEvent)="getPreviousPage()"
+      (pageSizeEvent)="getPageInNewSize($event)">
+    </app-custom-pagination>
+  </div>
 </div>
+  </mat-card-content>
+</mat-card>
 
 <ng-template #sortDescending>
   <i class="material-icons">arrow_drop_down</i>

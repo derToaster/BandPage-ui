@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {BandService} from '../../services/band.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {UserService} from '../../../services/user.service';
 
 export interface DialogData {
   dialogName: string;
@@ -16,7 +16,7 @@ export interface DialogData {
 })
 export class ConfirmationDialogComponent implements OnInit {
 
-  constructor( public dialogRef: MatDialogRef<ConfirmationDialogComponent>, private bandService: BandService,
+  constructor( public dialogRef: MatDialogRef<ConfirmationDialogComponent>, private bandService: UserService,
                @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   ngOnInit(): void {
@@ -28,11 +28,6 @@ export class ConfirmationDialogComponent implements OnInit {
   deleteUser(id: number): void{
     this.bandService.deleteOneUser(id);
     console.log('User Deleted');
-    this.refreshPage();
+    this.dialogRef.close();
   }
-
-  refreshPage(): void{
-    window.location.reload();
-  }
-
 }

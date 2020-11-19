@@ -5,9 +5,8 @@ import {ISkillLevels} from '../../models/ISkillLevels';
 import {SkillService} from '../../services/skill.service';
 import {UserProviderService} from '../../services/user-provider.service';
 import {Subscription} from 'rxjs';
-import {IUser} from '../../models/IUser';
-import {BandService} from '../../services/band.service';
-import {IUpdateUser} from '../../models/IUpdateUser';
+import {User} from '../../models/User';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-user-profile-edit',
@@ -28,7 +27,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
   instruments: IInstrument[] = [];
   skillLevels: ISkillLevels[] = [];
   userDataSubscribtion: Subscription = Subscription.EMPTY;
-  user: IUser;
+  user: User;
   userUpdate = {
     id: null,
     email: '',
@@ -41,7 +40,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
 
   constructor(private instrumentService: InstrumentsService, private skillLevelService: SkillService,
               private userProviderService: UserProviderService,
-              private userService: BandService) {
+              private userService: UserService) {
   }
 
   ngOnInit(): void {

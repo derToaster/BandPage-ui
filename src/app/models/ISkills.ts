@@ -1,10 +1,10 @@
-import {IUser} from './IUser';
+import {User} from './User';
 import {ISkillLevels} from './ISkillLevels';
 import {IInstrument} from './iinstrument';
 
 export interface ISkills{
   id: number;
-  user: IUser;
+  user: User;
   skillLevels: ISkillLevels;
   instruments: IInstrument;
 }

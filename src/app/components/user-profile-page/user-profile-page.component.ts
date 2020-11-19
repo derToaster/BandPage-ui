@@ -1,27 +1,31 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BandService} from '../../services/band.service';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {UserProviderService} from '../../services/user-provider.service';
-import {IUser} from '../../models/IUser';
-import {Observable, Subscription} from 'rxjs';
+import {User} from '../../models/User';
+import {Subscription} from 'rxjs';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-profile-page',
   templateUrl: './user-profile-page.component.html',
-  styleUrls: ['./user-profile-page.component.css']
+  styleUrls: ['./user-profile-page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserProfilePageComponent implements OnInit, OnDestroy {
-  user: IUser;
+  user: User;
   userDataSubscribtion: Subscription = Subscription.EMPTY;
-  constructor(private userProvider: UserProviderService) {
+  isApproved = false;
+
+  constructor(private userProvider: UserProviderService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.userProvider.loadUser();
     this.userDataSubscribtion = this.userProvider.getData().subscribe(data => {
       this.user = data;
-      console.log(data);
     });
+    this.authService.isUserAdmin();
   }
+
   ngOnDestroy(): void {
     this.userDataSubscribtion.unsubscribe();
   }

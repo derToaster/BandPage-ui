@@ -12,3 +12,11 @@
   background-image: linear-gradient(to bottom left, #f5a04c, #ee7700, #eb5f5e) !important;
 }
 
+.mat-card-title {
+  display: block;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.searchBar{
+  text-align: start;
+}

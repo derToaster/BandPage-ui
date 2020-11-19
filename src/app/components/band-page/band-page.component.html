@@ -1,0 +1,84 @@
+<div *ngIf="user.approved; then approved else unapproved"></div>
+<ng-template #approved>
+<div>
+  <button [routerLink]="['/bandedit']">Create Yet Another Band</button>
+</div>
+<div>
+  <mat-card>
+    <mat-card-title>Pending Invites</mat-card-title>
+    <mat-card-content>
+      <ul *ngIf="invites">
+        <li *ngFor="let invite of invites">
+          <div *ngIf="invite.isDeny">
+            {{invite.message}}
+            <button (click)="deleteDeny(invite.id)" mat-menu-item>
+              <mat-icon>check</mat-icon>
+            </button>
+          </div>
+          {{invite.message}}
+          <button (click)="acceptInvitation(invite.id, invite.band.id, user.id)" mat-menu-item>
+            <mat-icon>check</mat-icon>
+          </button>
+          <button (click)="denyInvitation(invite.id, invite.sender, invite.band)" mat-menu-item>
+            <mat-icon>close</mat-icon>
+          </button>
+        </li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>
+<!--Owned Bands-->
+<div class="px-4 py-3" *ngFor="let band of ownedBands">
+  <mat-card>
+    <mat-card-title>Owned Band {{band?.name}}
+      <button (click)="deleteBand(band.id)" mat-menu-item>
+        <mat-icon>block</mat-icon>
+      </button>
+    </mat-card-title>
+    <mat-card-content>
+      <h3 class="mb-0">{{band.genre}}</h3>
+      <div class="p-4 rounded shadow-sm bg-dark">
+        <h4>Members
+          <button (click)="openDialog(user, band)" mat-menu-item>
+            <mat-icon>person_add</mat-icon>
+          </button>
+        </h4>
+        <ul>
+          <li *ngFor="let member of band.memberships"> {{member.members?.username}}
+            <button mat-menu-item (click)="deleteMember(member.id)">
+              <mat-icon>block</mat-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+</div>
+<div *ngIf="memberBands">
+<div class="px-4 py-3" *ngFor="let band of memberBands">
+  <mat-card *ngIf="band">
+    <mat-card-title> Member in {{band?.name}} Owned by {{band.owner?.username}}
+<!--      <button (click)="$event" mat-menu-item name="Leave Band">-->
+<!--        <mat-icon>block</mat-icon>-->
+<!--      </button>-->
+    </mat-card-title>
+    <mat-card-content>
+      <h3 class="mb-0">{{band?.genre}}</h3>
+      <div class="p-4 rounded shadow-sm bg-dark">
+        <h4>Members</h4>
+        <ul>
+          <li *ngFor="let bandMembers of band?.memberships"> {{bandMembers.members?.username}}
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+</div>
+</div>
+</ng-template>
+
+<ng-template #unapproved>
+  <h1>No bands either until you are approved dude!! geez read the room! </h1>
+</ng-template>

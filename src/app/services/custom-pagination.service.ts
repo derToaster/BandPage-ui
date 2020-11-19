@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Page} from '../pagination/page';
 import {Pageable} from '../pagination/pageable';
 

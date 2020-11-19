@@ -1,31 +1,68 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {IUser} from '../models/IUser';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Band} from '../models/Band';
 import {Pageable} from '../pagination/pageable';
-import {Page} from '../pagination/page';
 import {SortableColumn} from '../sorting/sortable-column';
-import {LoginResponse} from '../models/LoginResponse';
-import {IUpdateUser} from '../models/IUpdateUser';
-import {ICheckPassword} from '../models/ICheckPassword';
-
-const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
-};
+import {Page} from '../pagination/page';
+import {User} from '../models/User';
 
 
-const API_URL = 'server/api/v1/users/';
+const API_URL = 'server/api/v1/bands/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BandService {
+
   constructor(private http: HttpClient) {
   }
 
-  isPassword: Observable<boolean>;
+  createBand(band: Band): Observable<Band> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+    });
+    const options = {headers: headers};
+    const body = JSON.stringify(band);
+    return this.http.post<Band>(API_URL, body, options);
 
-  public getPage(pageable: Pageable, sortableColumn: SortableColumn): Observable<Page<IUser>> {
+  }
+
+  addBandMember(bandId: number, memberId: number): Observable<string> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+    });
+    const options = {headers: headers};
+    return this.http.post<string>(API_URL + bandId + '/' + memberId, null, options);
+  }
+  addBand(bandId: number): void {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+    });
+    const options = {headers: headers};
+    this.http.delete(API_URL + bandId, options);
+  }
+
+  deleteBand(bandId: number): void {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+    });
+    const options = {headers: headers};
+    this.http.delete(API_URL + bandId, options).subscribe(data => console.log(data));
+  }
+  getBandById(bandId: number): Observable<Band> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+    });
+    const options = {headers: headers};
+    return this.http.get<Band>(API_URL + bandId, options);
+  }
+  getBandPage(pageable: Pageable, sortableColumn: SortableColumn): Observable<Page<Band>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + sessionStorage.getItem('token')
@@ -35,9 +72,8 @@ export class BandService {
       + '?page=' + pageable.pageNumber
       + '&size=' + pageable.pageSize
       + this.getSortedParameters(sortableColumn);
-    return this.http.get<Page<IUser>>(url, options);
+    return this.http.get<Page<Band>>(url, options);
   }
-
   private getSortedParameters(sortableColumn: SortableColumn): string {
     if (sortableColumn == null) {
       return '&sort=id';
@@ -45,50 +81,25 @@ export class BandService {
     return '&sort=' + sortableColumn.name + ',' + sortableColumn.direction;
   }
 
-  createUser(user): Observable<IUser> {
-    const body = JSON.stringify(user);
-    return this.http.post<IUser>(API_URL + 'add', body, httpOptions);
-  }
-
-  getOneUser(id: number): Observable<IUser> {
-    // let token = localStorage.getItem('access_token');
-    return this.http.get<IUser>('/api/v1/users/' + id);
-    // {headers: new HttpHeaders().set('Authorization', 'Bearer' + token)}
-  }
-
-  deleteOneUser(id: number): void {
-    this.http.delete(API_URL + id, httpOptions).subscribe(data => console.log(data));
-  }
-
-  getSortedUsers(param: string): Observable<IUser[]> {
-    return this.http.get<IUser[]>(API_URL + param);
-  }
-
-  updateUser(userUpdate: IUpdateUser): void {
+  searchPage(pageable: Pageable, column: SortableColumn, keyword: string): Observable<Page<Band>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + sessionStorage.getItem('token')
     });
     const options = {headers: headers};
-    const body = JSON.stringify(userUpdate);
-    this.http.put(API_URL, body, options).subscribe(response => console.log(response));
+    let url = API_URL + 'search/' + keyword
+      + '?page=' + pageable.pageNumber
+      + '&size=' + pageable.pageSize
+      + this.getSortedParameters(column);
+    return this.http.get<Page<Band>>(url, options);
   }
-
-  getUserByUsername(username: string): Observable<IUser> {
-    const token = sessionStorage.getItem('token');
-    return this.http.get<IUser>(API_URL + 'get/' + username, {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)});
-  }
-
-
-  checkPassword(checkPassword: ICheckPassword): Observable<boolean> {
+  getSoerenBands(): Observable<Band[]>{
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + sessionStorage.getItem('token')
     });
     const options = {headers: headers};
-    const body = JSON.stringify(checkPassword);
-    return this.http.post<boolean>(API_URL + 'checkpw', body, options);
-
+    return this.http.get<Band[]>(API_URL + 'isSoeren', options);
   }
 }
 

@@ -1,0 +1,14 @@
+.thePaginator{
+  text-align: center;
+
+}
+.theTable{
+  text-align: center;
+  background-image: linear-gradient(to bottom left, #f5a04c, #ee7700, #eb5f5e);
+  color: white;
+}
+::ng-deep .custom-mat-menu{
+  text-align: center;
+  background-image: linear-gradient(to bottom left, #f5a04c, #ee7700, #eb5f5e) !important;
+}
+

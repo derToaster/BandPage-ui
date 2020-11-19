@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {IUser} from '../models/IUser';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BandService} from './band.service';
+import {User} from '../models/User';
+import {HttpClient} from '@angular/common/http';
+import {UserService} from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserProviderService {
-  private Datastore = new BehaviorSubject<IUser>(null);
-  constructor(private http: HttpClient, private userService: BandService) {
+  private Datastore = new BehaviorSubject<User>(null);
+  constructor(private http: HttpClient, private userService: UserService) {
   }
-  getData(): Observable<IUser>{
+  getData(): Observable<User>{
     return this.Datastore.asObservable();
   }
 

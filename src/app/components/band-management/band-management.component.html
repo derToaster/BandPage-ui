@@ -1,0 +1,77 @@
+<div class="theTable">
+  <div>
+    <mat-form-field align="left">
+      <input type="text" matInput [(ngModel)]="keyword" name="keyword" placeholder="Keyword">
+    </mat-form-field>
+    <button mat-button (click)="searchData()">Search</button>
+
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <th *ngFor="let column of sortableColumns" (click)="sort(column)">{{column.title}}
+        <span *ngIf="column.direction != null">
+    <span *ngIf="column.direction =='asc'; then sortAscending else sortDescending">
+    </span>
+  </span></th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let band of page.content">
+        <td>{{band.id}}</td>
+        <td>
+          <button mat-button [matMenuTriggerFor]="menu">{{band.name}}</button>
+          <mat-menu class="custom-mat-menu" #menu="matMenu">
+            <button (click)="openDialog(band.name, band.id)" mat-menu-item>
+              <mat-icon>block</mat-icon>
+              <span>Delete Band</span>
+            </button>
+          </mat-menu>
+        </td>
+        <td>{{band.owner.username}}</td>
+        <td>{{band.genre}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="thePaginator">
+      <app-custom-pagination
+        [page]="page"
+        (nextPageEvent)="getNextPage()"
+        (previousPageEvent)="getPreviousPage()"
+        (pageSizeEvent)="getPageInNewSize($event)">
+      </app-custom-pagination>
+    </div>
+  </div>
+</div>
+<div *ngIf="soerenBands">
+  <div class="px-4 py-3">
+    <h1>These are the pathetic attempts of Sören to create bands and must therefore be deleted Immediately </h1>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <th>ID</th>
+      <th>Band Name</th>
+      <th>Band Genre</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let band of soerenBands">
+        <td>{{band.id}}</td>
+        <td>
+          <button mat-button [matMenuTriggerFor]="menu">{{band.name}}</button>
+          <mat-menu class="custom-mat-menu" #menu="matMenu">
+            <button (click)="openDialog(band.name, band.id)" mat-menu-item>
+              <mat-icon>block</mat-icon>
+              <span>Delete Band</span>
+            </button>
+          </mat-menu>
+        </td>
+        <td>{{band.genre}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<ng-template #sortDescending>
+  <i class="material-icons">arrow_drop_down</i>
+</ng-template>
+<ng-template #sortAscending>
+  <i class="material-icons">
+    arrow_drop_up
+  </i>
+</ng-template>

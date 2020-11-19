@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ISkillLevels} from '../models/ISkillLevels';
-import {IUser} from '../models/IUser';
 
 const API_URL = 'server/api/v1/skill/';
 

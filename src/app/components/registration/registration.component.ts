@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {BandService} from '../../services/band.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import validate = WebAssembly.validate;
-import {Observable} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '../../services/user.service';
+
+
+import {Router} from '@angular/router';
+import {User} from '../../models/User';
+
 
 @Component({
   selector: 'app-registration',
@@ -10,40 +12,34 @@ import {Observable} from 'rxjs';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-  forms: FormGroup;
+
   validMessage: string;
-  public instrumentModels: string[] = [
-    'Guitar', 'Drums', 'Bass', 'Keys', 'Sax', 'Trompet', 'Trombone', 'Flute', 'Vocal'];
+  public Questions: string[] = [
+    'How do you call your pipi when you are alone? ', 'What is the name of your first Pet?', 'What is your mothers maiden name?',
+    'How long can you last without breathing', 'Are you Stupid ?'];
   public skillModels: string [] = [
     'noob', 'intermediate', 'Pro', 'God', 'Beethoven was a Bitch!'
   ];
+  user: User = new User();
 
-  constructor(private bandService: BandService) {
+  constructor(private bandService: UserService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.forms = new FormGroup({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-    });
   }
+
   createUser(): any {
     console.log('Reached The Function');
-    if (this.forms.valid){
+    if (this.user) {
       this.validMessage = 'You are Registered';
-      this.bandService.createUser(this.forms.value).subscribe(
-      data => {
-        console.log(data);
-        this.forms.reset();
-        return true;
-      },
-      error => {
-        return Observable.throw(error);
-      }
-    );
-  }else {
-    this.validMessage = 'please fill out the form';
+      this.bandService.createUser(this.user).subscribe(
+        data => {
+          console.log(data);
+          this.router.navigate(['/login']);
+          return true;
+        });
+    } else {
+      this.validMessage = 'please fill out the form';
     }
   }
 
